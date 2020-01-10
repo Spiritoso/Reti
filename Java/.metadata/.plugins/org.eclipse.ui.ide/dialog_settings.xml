@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="C:\Users\Nico\OneDrive\Unibo\Esercizi fondamenti 2\I-O\Tokenizer"/>
+		<item value="C:\Users\Nico\OneDrive\Unibo\Esercizi fondamenti 2\I-O\StreamCaratteri"/>
+		<item value="C:\Users\Nico\OneDrive\Unibo\Esercizi fondamenti 2\I-O\StreamByte"/>
+	</list>
+	<section name="CleanDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="629"/>
+		<item key="DIALOG_Y_ORIGIN" value="220"/>
+		<item key="DIALOG_WIDTH" value="662"/>
+		<item key="DIALOG_HEIGHT" value="474"/>
+		<item key="TOGGLE_SELECTED" value="false"/>
+	</section>
+</section>

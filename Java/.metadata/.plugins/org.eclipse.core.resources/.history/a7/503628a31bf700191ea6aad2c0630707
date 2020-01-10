@@ -1,0 +1,91 @@
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.util.NoSuchElementException;
+import java.util.StringTokenizer;
+
+/*
+ *riceve dal client la richiesta di scambiare 2 righe di un file (attesa messaggio udp)
+ *scambia le di righe
+ *ritorna come risultato 1 se tutto ok o -1 se problema
+ */
+
+public class RowSwapServer extends Thread {
+	DatagramSocket socket;
+	File file;
+	
+	public RowSwapServer(DatagramSocket socket, File file) {
+		this.socket = socket;
+		this.file = file;
+	}
+	
+	@Override
+	public void run() {
+		System.out.println("RSS" + socket.getLocalPort() + "- avvio per file: " + file.getName() + " su: " + socket.getLocalSocketAddress());
+			
+		//creo il file disupporto per modificare il file
+		File file2 = new File(file.getName()+"Temp");
+		if(file2.exists()) file2.delete();
+		try {
+			file2.createNewFile();
+		} catch (IOException e) {
+			System.err.println("Errore creazione file Temp");
+			e.printStackTrace();
+		}
+		
+//		try
+		int linea1, linea2;
+		StringTokenizer str = null;
+		ByteArrayInputStream biStream = null;
+		DataInputStream diStream = null;
+		byte[] buf = new byte[256];
+		String messaggio;
+		
+		DatagramPacket packet = new DatagramPacket(buf, buf.length);
+		
+		while(true) {
+			System.out.println("RSS" + socket.getLocalPort() +"- attesa richieste linee...");
+			
+			//ricezione datagramma
+			try {
+				packet.setData(buf);
+				socket.receive(packet);
+			} catch (IOException e) {
+				System.err.println("Errore ricezione datagramma: ");
+				e.printStackTrace();
+				continue;
+			}
+			
+			//lettura messaggio e preparazione linee
+			try {
+				biStream = new ByteArrayInputStream(packet.getData(), 0, packet.getLength());
+				diStream = new DataInputStream(biStream);
+				messaggio = diStream.readUTF();
+				str = new StringTokenizer(messaggio);
+				linea1 = Integer.parseInt(str.nextToken().trim());
+				linea2 = Integer.parseInt(str.nextToken().trim());
+				
+			} catch (IOException e) {
+				System.err.println("Errore lettura datagramma: ");
+				e.printStackTrace();
+				continue;
+			} catch(NoSuchElementException e) {
+				System.err.println("Errore lettura datagramma tokenizer: ");
+				e.printStackTrace();
+				continue;
+			} catch(NumberFormatException e) {
+				System.err.println("Errore lettura datagramma; le linee non sono interi ");
+				e.printStackTrace();
+				continue;
+			}
+			
+			
+			
+		}
+		
+	}
+	
+}

@@ -1,0 +1,47 @@
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+public class Server {
+	public static void main(String[] args) {
+		InetAddress add = null;
+		try {
+			add = InetAddress.getByName("10.201.33.78");
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		int port = 19000;
+		
+		try (DatagramSocket socket = new DatagramSocket(port, add)){
+			System.out.println("S: avviato. ip: " + socket.getLocalAddress());
+			
+			byte[] buf = new byte[10];
+			
+			DatagramPacket packet = new DatagramPacket(buf, buf.length);
+			
+			socket.receive(packet);
+			
+			String s = new String(packet.getData());
+			
+			System.out.println("S: ricevuto- " + s + " da ip: " 
+						+ packet.getAddress() + " port: " + packet.getPort());
+			
+			buf[0] = 'y';
+			socket.send(packet);
+
+			System.out.println("Fine");	
+			
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+}

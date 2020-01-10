@@ -1,0 +1,10 @@
+INDEX VERSION 1.131+C:\Users\Nico\OneDrive\Unibo\Esercizi Reti di Calcolatori\Java\.metadata\.plugins\org.eclipse.jdt.core
+1862803837.index
+1735302339.index
+3166639713.index
+680802810.index
+3060899160.index
+3417843447.index
+2608618690.index
+4236824222.index
+524819999.index

@@ -1,0 +1,54 @@
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+public class Server {
+	// le porte 'libere' vanno da 1024 a 65535
+	private static final int PORT = 19000;
+
+	public static void main(String[] args) {
+		// controllo argomenti
+		InetAddress add = null;
+		try {
+			add = InetAddress.getByName("127.0.0.1");
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		int port = -1;
+
+		if (args.length == 0) { // porta standard
+			port = PORT;
+		} else if (args.length == 1) { // setto la porta
+			try {
+				port = Integer.parseInt(args[0]);
+				if (port < 1024 || port > 65535) {
+					System.out.println("Errore numero porta");
+					System.exit(1);
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("Errore numero porta");
+				System.exit(1);
+			}
+		}else {
+			System.out.println("Errore paramentri: [porta]");
+			System.exit(1);
+		}
+		
+		DatagramSocket socket = null;
+		DatagramPacket packet = null;
+		byte[] buf = new byte[256];
+		
+		try {
+			socket = new DatagramSocket(port, add);
+			packet = new DatagramPacket(buf, buf.length);
+			System.out.println("S- creata socket " + socket);
+		}
+		
+		
+
+	}
+}

@@ -1,0 +1,8 @@
+
+public class RowStapServer extends Thread {
+
+	@Override
+	public void run() {
+		
+	}
+}

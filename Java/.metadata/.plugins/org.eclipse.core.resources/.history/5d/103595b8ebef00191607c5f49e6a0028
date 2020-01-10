@@ -1,0 +1,58 @@
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+public class Server {
+
+	public static void main(String[] args) {
+		InetAddress add = null;
+		try {
+			add = InetAddress.getLocalHost();
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println("S: ip- " + add);
+	
+		//creo la socket settando ip e porta (sono il Server e quinndi li devo settare!!!)
+		try (DatagramSocket socket = new DatagramSocket(19900, add);){
+						
+			//preparo le strutture per ricevere e risettare correttamente la socket della risposta
+			int recport = 0;
+			InetAddress recadd = null;
+			byte[] buf = new byte[200];
+			
+			DatagramPacket packet = new DatagramPacket(buf, buf.length, recadd, recport);
+			//packet.setData(buf);		//aggancio il mio buffer
+			socket.receive(packet);		//ricezione con attesa sincrona
+			
+			//ho ricevuto
+			System.out.println("S: ricevuto datagram. porta: " 
+					+ packet.getPort() + " address: " + packet.getAddress() 
+					+ " dati: " + packet.getData().toString());
+			
+			//rispondo: setto idirizzo e porta del destinatario
+			recport = packet.getPort();
+			add = packet.getAddress();
+			
+			buf[0] = 'y';
+			socket.send(packet);
+			
+			System.out.println("S: Inviati dati. Fine");
+			
+		} catch (SocketException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+	}
+
+}

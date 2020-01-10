@@ -1,0 +1,22 @@
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+public class Server {
+	public static void main(String[] args) {
+		InetAddress add = null;
+		try {
+			add = InetAddress.getByName("127.0.0.1");
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		int port = 19000;
+		
+		
+
+	}
+}

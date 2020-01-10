@@ -1,0 +1,85 @@
+import java.io.File;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+
+/*
+ * Agisce da main e lancia tutti gli RowSwapServer come THREAD
+ * args[0] = portaDiscoveryServer
+ * poi passo sempre come argomenti coppie (nomeFile porta)
+ * 
+ */
+public class DiscoveryServer {
+
+	public static void main(String[] args) {
+		System.out.println("S- avviato..");
+		DatagramSocket socket = null;
+		DatagramPacket packet = null;
+		int port;
+		byte[] buf = new byte[256];
+		Boolean[] validi = new Boolean[(args.length - 1) / 2]; // vettore che indica le coppie file-porta valide
+
+		// controllo argomenti + controllo porte diverse
+		if (args.length > 1) {
+			try {
+				port = Integer.parseInt(args[0]);
+				if (port < 1024 || port > 65535) {
+					System.err.println(
+							"Errore argomenti [potaDiscovery] deve essere un numero compreso fra 1024 e 65535");
+					System.exit(1);
+				}
+			} catch (NumberFormatException e) {
+				System.err.println("Errore argomenti [potaDiscovery] deve essere un numero compreso fra 1024 e 65535");
+				e.printStackTrace();
+				System.exit(1);
+			}
+
+		} else {
+			System.err.println("Errore argomenti [potaDiscovery]");
+			System.exit(1);
+		}
+
+		for (int i = 2; i < args.length; i += 2) {
+			File f = new File(args[i - 1]);
+			if (f.exists()) { // il file passato esiste
+				try {
+					validi[i - 1] = true;
+					int portF = Integer.parseInt(args[i]);
+					for (int n = 2; n < args.length; n += 2) {
+						if (n != i) {
+							try {
+								int portA = Integer.parseInt(args[n]);
+								if (portF == portA) { // 2 porte uguali
+									validi[i /2 -1] = false;
+									System.out.println("DS- File-porta n. " + (i/2) + " non valido");
+								}
+							} catch (NumberFormatException e) {
+								continue; // per il momento non mi importa che questa porta non sia un intero
+							}
+						}
+					}
+
+				} catch (NumberFormatException e) {
+					validi[i / 2 - 1] = false;
+					System.err.println("Errore conversione porta del file n: " + i / 2);
+					e.printStackTrace();
+					continue; // non faccio crasciare il server solo perche' e' sbagliato un inserimento di
+								// tanti
+				}
+			} else {
+				validi[i / 2 - 1] = false;
+				System.out.println("DS- File-porta n. " + (i/2) + " non valido");
+			}
+		}
+
+		// creazione di un RawSwapper per ogni file elencato come argomento
+
+		// attesa richieste e risposta con numero della porta associata al file
+		// che il cliente ha richiesto.
+		// file non richiesto -> restituisce intero negativo
+		while (true) {
+
+		}
+
+	}
+
+}

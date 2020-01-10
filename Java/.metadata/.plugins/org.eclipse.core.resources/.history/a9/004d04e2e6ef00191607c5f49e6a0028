@@ -1,0 +1,38 @@
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+
+public class Client {
+
+	public static void main(String[] args) {
+		try {
+			DatagramSocket socket = new DatagramSocket();
+			
+			byte[] buf = {'C', 'i', 'a', 'o'};		//byte da mandare
+			InetAddress addr = InetAddress.getLocalHost();
+			System.out.println("C: ip- " + addr);
+			int port = 1900;
+			
+			DatagramPacket packet = new DatagramPacket(buf, 4, addr, port);
+			
+			socket.send(packet);		//invio del DatagramPacket
+			System.out.println("C: Invio del paccketto");
+			
+		} catch (SocketException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+
+	}
+
+}

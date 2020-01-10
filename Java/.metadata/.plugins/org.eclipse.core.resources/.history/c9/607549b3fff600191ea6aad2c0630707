@@ -1,0 +1,19 @@
+/*
+ * Invia richieste contenenti nomeFile 
+ * @args[0] = ipServer
+ * @args[1] = portaServer
+ * @args[2] = nomeFile
+ * 
+ */
+public class Client {
+	public static void main(String[] args) {
+		//controllo parametri
+
+		//ciclo in cui si chiede da terminale di iserire la coppia di righe
+		//da scambiare
+		//DiscoveryServer ritorna numero negativo -> termino
+		
+		
+	}
+	
+}
